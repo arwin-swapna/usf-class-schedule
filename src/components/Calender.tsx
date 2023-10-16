@@ -68,6 +68,11 @@ export default function Calendar() {
 	setEvents(test);
   }
 
+  const dayHeaderContent = (arg: any) => {
+    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return weekdays[arg.date.getDay()];
+  };
+
   return (
     <>
       <FullCalendar
@@ -79,6 +84,7 @@ export default function Calendar() {
         weekends={false}
         slotMinTime="08:00:00"
         slotMaxTime="20:00:00"
+		dayHeaderContent={dayHeaderContent}
         events={events}
       />
 	  <Button onClick={insert} variant="outlined">Change</Button>
