@@ -1,15 +1,19 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid,Typography } from "@mui/material";
 import Calender from "../../components/Calender";
+import SearchResult from "../../components/SearchResult";
 
 export default function Home(){
     return (
-        <Grid container my={5} display="flex" flexDirection='row' justifyContent="space-between" >
-            <Grid item xs={3}>
-                <Typography>asdlkjnasdljk</Typography>
+        <>
+            <Typography my={2}>Spring 2024</Typography>
+            <Grid container spacing={2}>
+                <Grid item xs={4} px={2} >
+                    <SearchResult/>
+                </Grid>
+                <Grid item xs={8}>
+                    <Calender/>
+                </Grid>
             </Grid>
-            <Grid item xs={9}>
-                <Calender/>
-            </Grid>
-        </Grid>
+        </>
     )
 }
