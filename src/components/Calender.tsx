@@ -3,7 +3,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { useState } from "react";
-import { Button } from "@mui/material";
 
 export default function Calendar() {
 
@@ -49,25 +48,6 @@ export default function Calendar() {
 		},
 	]);
 
-	function insert(){
-		let test = [
-			...events,
-			{
-				title: "event1",
-				start: getDayOfWeekDate("Friday", "08:00:00"),
-				end: getDayOfWeekDate("Friday", "09:15:00"),
-				allDay: false,
-			},
-			{
-				title: "event2",
-				start: getDayOfWeekDate("Wednesday", "10:00:00"),
-				end: getDayOfWeekDate("Wednesday", "15:15:00"),
-				allDay: false,
-			},
-		]
-
-		setEvents(test);
-	}
 
 	const dayHeaderContent = (arg: any) => {
 		const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -89,7 +69,6 @@ export default function Calendar() {
 				dayHeaderContent={dayHeaderContent}
 				events={events}
 			/>
-		<Button onClick={insert} variant="outlined">Change</Button>
 		</>
 	);
 }
