@@ -3,16 +3,18 @@ import "./styles.css"
 import theme from '../theme'
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
+import { useState } from 'react'
 
 
 function App() {
+	const [classCount, setClassCount] = useState(0);
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline/>
-			<Header/>
+			<Header count={classCount} />
 			<Container maxWidth="xl">
-				<Outlet/>
-			</Container>
+				<Outlet context={[classCount ,setClassCount]} />
+			</Container> 
 		</ThemeProvider>
 	)
 }
