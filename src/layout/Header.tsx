@@ -10,11 +10,8 @@ const YourSVGFile = 'src/assets/usflogo.svg';
 
 const pages = ['MyUSF', 'OASIS', 'Week at a Glance', 'Registered Classes'];
 
-interface Props {
-    count : number
-}
 
-export default function Header({count}:Props) {
+export default function Header() {
 
   return (
     <AppBar position="static">
@@ -50,11 +47,6 @@ export default function Header({count}:Props) {
                     ))}
                 </Box>
                 
-                <Badge badgeContent={count} color='secondary' component='span'>
-                    <Button variant="outlined" color="secondary">
-                        Selected Classes
-                    </Button>
-                </Badge>
 
             </Toolbar>
         </Container>

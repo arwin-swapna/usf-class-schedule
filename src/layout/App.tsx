@@ -7,13 +7,12 @@ import { useState } from 'react'
 
 
 function App() {
-	const [classCount, setClassCount] = useState(0);
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline/>
-			<Header count={classCount} />
+			<Header />
 			<Container maxWidth="xl">
-				<Outlet context={[classCount ,setClassCount]} />
+				<Outlet/>
 			</Container> 
 		</ThemeProvider>
 	)

@@ -3,6 +3,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import getDayOfWeekDate from '../utils/calenderHelpers'
+import listPlugin from '@fullcalendar/list';
 import { ClassData } from "./data";
 import { useEffect, useState } from "react";
 
@@ -46,10 +47,10 @@ export default function Calendar({items}:Props) {
 			<FullCalendar
 				eventOverlap={false}
 				initialDate={getDayOfWeekDate("Monday", "08:00:00")}
-				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 				initialView="timeGridWeek"
 				height='auto'
-				headerToolbar={{ start: "", center: "", end: "" }}
+				headerToolbar={{ start: "", center: "", end: "timeGridWeek,listWeek" }}
 				allDaySlot={false}
 				weekends={false}
 				slotMinTime="08:00:00"

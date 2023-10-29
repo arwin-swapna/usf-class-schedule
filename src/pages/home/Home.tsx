@@ -1,23 +1,23 @@
-import { Alert, Grid,Snackbar,Typography } from "@mui/material";
+import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material";
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import { useState } from "react";
 import { ClassData } from "../../components/data";
-import { useOutletContext } from "react-router-dom";
 
 export default function Home(){
 
-    const [classCount ,setClassCount] = useOutletContext() as [number, React.Dispatch<React.SetStateAction<number>>];;
+    const [classCount ,setClassCount] = useState(0)
     const [open, setOpen] = useState(false);
+    const [sopen, ssetOpen] = useState(false);
     const [calendarEvents, setCalendarEvents] = useState<ClassData[]>([])
-
+    const [drawerOpen, setDrawerOpen] = useState(false)
     function addClassToCalendar(classData : ClassData){
 
         const exists = calendarEvents.some((data) => data.id === classData.id)
         if(!exists){
             setCalendarEvents([...calendarEvents, classData]);
             setClassCount(calendarEvents.length + 1)
-            console.log(classCount)
+            ssetOpen(true)
         }else{
             setOpen(true)
         }
@@ -27,9 +27,19 @@ export default function Home(){
         setOpen(false);
     };
 
+    const shandleClose = () => {
+        ssetOpen(false);
+    };
+
     return (
         <>
-            <Typography my={2}>Spring 2024</Typography>
+            <Box display='flex' my={2} justifyContent='space-between'>
+                <Typography my='auto'>Spring 2024</Typography>
+                <Badge badgeContent={classCount} color='primary' component='span'>
+                    <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
+                </Badge>
+
+            </Box>
             <Grid container spacing={2}>
                 <Grid item xs={4} px={2} >
                     <SearchResult onAddClassToCalendar={addClassToCalendar}/>
@@ -38,17 +48,58 @@ export default function Home(){
                     <Calender items={calendarEvents}/>
                 </Grid>
             </Grid>
+
             <Snackbar
                 anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
+                    vertical: 'top',
+                    horizontal: 'center',
                 }}
                 open={open}
                 autoHideDuration={5000} 
                 onClose={handleClose}
             >
-                <Alert severity="error">This class has been already added</Alert>
+                <Alert severity="error">This class has already been added</Alert>
             </Snackbar>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={sopen}
+                autoHideDuration={5000} 
+                onClose={shandleClose}
+            >
+                <Alert severity="success">Class Added</Alert>
+            </Snackbar>
+
+            <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+                <Box p={3}>
+                    <Box mb={2}>
+                        <Typography color='primary'>Current Schedule: </Typography>
+                        <Divider/>
+                    </Box>
+                    {calendarEvents.map((result) => (
+                        <Grid item xs={12} key={result.id} pb={1}>
+                            <Card variant='outlined' sx={{borderRadius:'18px'}}>
+                                <CardActionArea >
+                                    <CardContent>
+                                        <Typography variant="h6" component="div">
+                                            {result.title}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Time: {result.days} {result.startTime}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Professor: {result.professor}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Box>
+            </Drawer>
         </>
     )
 }

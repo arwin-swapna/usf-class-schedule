@@ -24,37 +24,38 @@ export default function SearchResult({onAddClassToCalendar} : any) {
   return (
     <Box px={2}>
         <TextField
-            sx={{ marginTop: '1.5rem', borderWidth: '50px' }}
+            sx={{ borderWidth: '50px',paddingBottom:2 }}
             id="outlined-basic"
             label="Class Search"
-            size="medium"
+            size="small"
             variant="outlined"
             fullWidth
             onChange={handleTextChange}
             value={searchText}
         />
-
-        <Grid container spacing={2} pt={2}>
-            {searchResults.map((result) => (
-                <Grid item xs={12} key={result.id}>
-                    <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                        <CardActionArea onClick={() => onAddClassToCalendar(result) }>
-                            <CardContent>
-                                <Typography variant="h6" component="div">
-                                    {result.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    Time: {result.time}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    Professor: {result.professor}
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                </Grid>
-            ))}
-        </Grid>
+        <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
+            <Grid container spacing={2} pt={2}>
+                {searchResults.map((result) => (
+                    <Grid item xs={12} key={result.id}>
+                        <Card variant='outlined' sx={{borderRadius:'18px'}}>
+                            <CardActionArea onClick={() => onAddClassToCalendar(result) }>
+                                <CardContent>
+                                    <Typography variant="h6" component="div">
+                                        {result.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Time: {result.days} {result.startTime}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Professor: {result.professor}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
 
     </Box>
   );
