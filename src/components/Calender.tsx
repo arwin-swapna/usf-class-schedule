@@ -2,61 +2,49 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { useState } from "react";
-
-export default function Calendar() {
-
-	const getDayOfWeekDate = (dayOfWeek : any, time : any) => {
-		const today = new Date();
-		const daysUntilDesiredDay = getDaysUntilDayOfWeek(dayOfWeek);
-
-		if (daysUntilDesiredDay > 0) {
-			today.setDate(today.getDate() + daysUntilDesiredDay);
-		} else if (daysUntilDesiredDay === 0) {
-			if (today.getHours() >= parseInt(time.split(":")[0])) {
-				today.setDate(today.getDate() + 7);
-			}
-		}
-
-		const year = today.getFullYear();
-		const month = String(today.getMonth() + 1).padStart(2, "0");
-		const date = String(today.getDate()).padStart(2, "0");
-
-		return `${year}-${month}-${date}T${time}`;
-	};
+import getDayOfWeekDate from '../utils/calenderHelpers'
+import { ClassData } from "./data";
+import { useEffect, useState } from "react";
 
 
-	const getDaysUntilDayOfWeek = (dayOfWeek : any) => {
-		const daysOfWeek1 = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-		const desiredDayIndex = daysOfWeek1.indexOf(dayOfWeek);
-		const currentDayIndex = new Date().getDay();
-		return (desiredDayIndex + 7 - currentDayIndex) % 7;
-	};
+interface Props {
+	items: ClassData[];
+}
 
-	const [events, setEvents] = useState([
-		{
-			title: "event1",
-			start: getDayOfWeekDate("Monday", "08:00:00"),
-			end: getDayOfWeekDate("Monday", "09:15:00"),
-			allDay: false,
-		},
-		{
-			title: "event2",
-			start: getDayOfWeekDate("Tuesday", "10:00:00"),
-			end: getDayOfWeekDate("Tuesday", "15:15:00"),
-			allDay: false,
-		},
-	]);
-
+export default function Calendar({items}:Props) {
+	const [events, setEvents] = useState([{}]);
 
 	const dayHeaderContent = (arg: any) => {
 		const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 		return weekdays[arg.date.getDay()];
 	};
+	
+	useEffect(() => {
+		let test = [{}]
+		let i = 0
+		for(const classD of items){
+			let days = classD.days.split(',');
+			if(days.length > 0){
+				for(const day of days){
+					test = [...test,{
+						id:i,
+						title:classD.title.toString(),
+						start:getDayOfWeekDate(day.trim().toString(),classD.startTime.toString()),
+						end:getDayOfWeekDate(day.trim().toString(),classD.endTime.toString()),
+						allDay: false
+					}]
+					i += 1
+				}
+			}
+			i += 1
+		}
+		setEvents(test)
+	},[items])
 
 	return (
 		<>
 			<FullCalendar
+				eventOverlap={false}
 				initialDate={getDayOfWeekDate("Monday", "08:00:00")}
 				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
 				initialView="timeGridWeek"

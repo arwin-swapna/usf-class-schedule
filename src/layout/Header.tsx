@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
+import { Badge } from '@mui/material';
 const YourSVGFile = 'src/assets/usflogo.svg';
 
 
@@ -44,6 +45,12 @@ export default function Header() {
                     </Button>
                     ))}
                 </Box>
+                
+                <Badge badgeContent={4} color='secondary' fullWidth>
+                    <Button variant="outlined" color="secondary">
+                        Selected Classes
+                    </Button>
+                </Badge>
 
             </Toolbar>
         </Container>

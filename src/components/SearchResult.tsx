@@ -1,8 +1,8 @@
-import { Box, Card, CardActionArea, CardContent, Drawer, Grid, TextField, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardContent, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { ClassData, dummyClassData } from './data';
 
-export default function SearchResult() {
+export default function SearchResult({onAddClassToCalendar} : any) {
   const [searchText, setSearchText] = useState<string>('');
   const [searchResults, setSearchResults] = useState<ClassData[]>([]);
 
@@ -36,15 +36,15 @@ export default function SearchResult() {
 
         <Grid container spacing={2} pt={2}>
             {searchResults.map((result) => (
-                <Grid item xs={12}>
-                    <Card key={result.id} variant='outlined' sx={{borderRadius:'18px'}}>
-                        <CardActionArea >
+                <Grid item xs={12} key={result.id}>
+                    <Card variant='outlined' sx={{borderRadius:'18px'}}>
+                        <CardActionArea onClick={() => onAddClassToCalendar(result) }>
                             <CardContent>
                                 <Typography variant="h6" component="div">
                                     {result.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                    Time: {result.times}
+                                    Time: {result.time}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     Professor: {result.professor}
