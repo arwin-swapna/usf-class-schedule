@@ -55,7 +55,7 @@ export default function Home(){
                     horizontal: 'center',
                 }}
                 open={open}
-                autoHideDuration={5000} 
+                autoHideDuration={3000} 
                 onClose={handleClose}
             >
                 <Alert severity="error">This class has already been added</Alert>
@@ -67,7 +67,7 @@ export default function Home(){
                     horizontal: 'center',
                 }}
                 open={sopen}
-                autoHideDuration={5000} 
+                autoHideDuration={1000} 
                 onClose={shandleClose}
             >
                 <Alert severity="success">Class Added</Alert>
@@ -79,25 +79,29 @@ export default function Home(){
                         <Typography color='primary'>Current Schedule: </Typography>
                         <Divider/>
                     </Box>
-                    {calendarEvents.map((result) => (
-                        <Grid item xs={12} key={result.id} pb={1}>
-                            <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                                <CardActionArea >
-                                    <CardContent>
-                                        <Typography variant="h6" component="div">
-                                            {result.title}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Time: {result.days} {result.startTime}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Professor: {result.professor}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                    ))}
+                    {calendarEvents.length === 0 ? (
+                        <Typography variant="body1">No classes in the schedule</Typography>
+                    ) : (
+                        calendarEvents.map((result) => (
+                            <Grid item xs={12} key={result.id} pb={1}>
+                                <Card variant='outlined' sx={{borderRadius:'18px'}}>
+                                    <CardActionArea>
+                                        <CardContent>
+                                            <Typography variant="h6" component="div">
+                                                {result.title}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Time: {result.days} {result.startTime}
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Professor: {result.professor}
+                                            </Typography>
+                                        </CardContent>
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                        ))
+                    )}
                 </Box>
             </Drawer>
         </>

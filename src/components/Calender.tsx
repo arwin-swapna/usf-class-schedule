@@ -2,7 +2,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import getDayOfWeekDate from '../utils/calenderHelpers'
 import listPlugin from '@fullcalendar/list';
 import { ClassData } from "./data";
 import { useEffect, useState } from "react";
@@ -13,7 +12,7 @@ interface Props {
 }
 
 export default function Calendar({items}:Props) {
-	const [events, setEvents] = useState([{}]);
+	const [events, setEvents] = useState([{	}]);
 
 	const dayHeaderContent = (arg: any) => {
 		const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -24,19 +23,15 @@ export default function Calendar({items}:Props) {
 		let test = [{}]
 		let i = 0
 		for(const classD of items){
-			let days = classD.days.split(',');
-			if(days.length > 0){
-				for(const day of days){
-					test = [...test,{
-						id:i,
-						title:classD.title.toString(),
-						start:getDayOfWeekDate(day.trim().toString(),classD.startTime.toString()),
-						end:getDayOfWeekDate(day.trim().toString(),classD.endTime.toString()),
-						allDay: false
-					}]
-					i += 1
-				}
-			}
+				test = [...test,{
+					id:i,
+					title:classD.title.toString(),
+					startTime:classD.startTime,
+					endTime:classD.endTime,
+					allDay: false,
+					groupId: 1,
+					daysOfWeek: classD.days
+				}]
 			i += 1
 		}
 		setEvents(test)
@@ -46,7 +41,6 @@ export default function Calendar({items}:Props) {
 		<>
 			<FullCalendar
 				eventOverlap={false}
-				initialDate={getDayOfWeekDate("Monday", "08:00:00")}
 				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 				initialView="timeGridWeek"
 				height='auto'
@@ -57,6 +51,7 @@ export default function Calendar({items}:Props) {
 				slotMaxTime="20:00:00"
 				dayHeaderContent={dayHeaderContent}
 				events={events}
+				
 			/>
 		</>
 	);

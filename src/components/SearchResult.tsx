@@ -34,27 +34,34 @@ export default function SearchResult({onAddClassToCalendar} : any) {
             value={searchText}
         />
         <Box style={{ maxHeight: '80vh', overflowY: 'auto' }}>
-            <Grid container spacing={2} pt={2}>
-                {searchResults.map((result) => (
-                    <Grid item xs={12} key={result.id}>
-                        <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                            <CardActionArea onClick={() => onAddClassToCalendar(result) }>
-                                <CardContent>
-                                    <Typography variant="h6" component="div">
-                                        {result.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Time: {result.days} {result.startTime}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Professor: {result.professor}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
+            {searchResults.length === 0 ? (
+                <Typography align='center' variant="body1">No classes found</Typography>
+            ) : (
+                <Grid container spacing={2} pt={2}>
+                    {searchResults.map((result) => (
+                        <Grid item xs={12} key={result.id}>
+                            <Card variant='outlined' sx={{borderRadius:'18px'}}>
+                                <CardActionArea onClick={() => onAddClassToCalendar(result) }>
+                                    <CardContent>
+                                        <Typography variant="h6" component="div">
+                                            {result.title}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Days: {result.days}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Time:  {result.startTime} - {result.endTime}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            Professor: {result.professor}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            )}
         </Box>
 
     </Box>

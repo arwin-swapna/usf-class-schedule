@@ -3,7 +3,6 @@ import "./styles.css"
 import theme from '../theme'
 import { Outlet } from 'react-router-dom'
 import Header from './Header'
-import { useState } from 'react'
 
 
 function App() {
