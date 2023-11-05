@@ -1,10 +1,11 @@
-import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material"
+import { Alert, Badge, Box, Button, Card, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material"
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import SectionSlideIn from "../../components/SectionSlideIn";
 import { useState } from "react";
 import { CourseData } from "../../components/courses";
 import { ClassSectionData } from "../../components/class_sections";
+import { getWeekday, convertTime } from "../../helpers";
 
 export default function Home(){
 
@@ -18,8 +19,8 @@ export default function Home(){
 
     function addClassToCalendar(classSectionData : ClassSectionData){
 
-        const exists = calendarEvents.some((data) => data.crn === classSectionData.crn)
-        if(!exists){
+        const duplicate = calendarEvents.some((data) => data.course_id === classSectionData.course_id)
+        if(!duplicate){
             setCalendarEvents([...calendarEvents, classSectionData]);
             setClassCount(calendarEvents.length + 1)
             ssetOpen(true)
@@ -92,7 +93,7 @@ export default function Home(){
                 )}
             </Drawer>
 
-            <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+            <Drawer anchor="right" PaperProps={{sx:{ width: "20%"}}} open={drawerOpen} onClose={() => setDrawerOpen(false)}>
                 <Box p={3}>
                     <Box mb={2}>
                         <Typography color='primary'>Current Schedule: </Typography>
@@ -104,19 +105,18 @@ export default function Home(){
                         calendarEvents.map((result) => (
                             <Grid item xs={12} key={result.crn} pb={1}>
                                 <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                                    <CardActionArea>
                                         <CardContent>
                                             <Typography variant="h6" component="div">
                                                 {result.course_title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
-                                                Time: {result.days} {result.startTime}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Professor: {result.professor}
+                                                {result.course_code}<br/>
+                                                Days: {getWeekday(result.days[0])}, {getWeekday(result.days[1])}<br/>
+                                                Time: {convertTime(result.startTime)} - {convertTime(result.endTime)}<br/>
+                                                Professor: {result.professor}<br/>
+                                                Location: {result.location}<br/>
                                             </Typography>
                                         </CardContent>
-                                    </CardActionArea>
                                 </Card>
                             </Grid>
                         ))

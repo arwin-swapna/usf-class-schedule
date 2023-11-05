@@ -1,6 +1,7 @@
 import { Box, Card, CardActionArea, CardContent, Divider, Grid,Table,TableBody,TableCell,TableHead,TableRow,Typography } from "@mui/material";
 import { useState, useEffect } from 'react';
 import { ClassSectionData, dummyClassSectionData } from "./class_sections";
+import { getWeekday, convertTime } from "../helpers";
 
 export default function SectionSlideIn({selectedCourse, onAddClassToCalendar} : any) {
 
@@ -38,6 +39,9 @@ export default function SectionSlideIn({selectedCourse, onAddClassToCalendar} : 
                                                 {result.course_code} {result.course_title}
                                             </Typography>
                                             <Typography variant="body2">
+                                                Section {result.section_number}
+                                            </Typography>
+                                            <Typography variant="body2">
                                                 CRN: {result.crn}
                                             </Typography>
                                             <Typography variant="body2">
@@ -59,8 +63,8 @@ export default function SectionSlideIn({selectedCourse, onAddClassToCalendar} : 
                                                 <TableBody>
                                                     <TableRow>
                                                         <TableCell>{result.format}</TableCell>
-                                                        <TableCell>{result.days}</TableCell>
-                                                        <TableCell>{result.startTime}<br></br>-<br></br>{result.endTime}</TableCell>
+                                                        <TableCell>{getWeekday(result.days[0])}<br></br>{getWeekday(result.days[1])}</TableCell>
+                                                        <TableCell>{convertTime(result.startTime)} to<br></br>{convertTime(result.endTime)}</TableCell>
                                                         <TableCell>{result.location}</TableCell>
                                                     </TableRow>
                                                 </TableBody>
