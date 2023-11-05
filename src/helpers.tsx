@@ -3,7 +3,7 @@ export function getWeekday(day_number : number) {
     if (day_number >= 1 && day_number <= 7) {
         return Weekday[day_number - 1]
     }
-    else return "Error"
+    else return ""
 }
 
 export function convertTime(time_string : string) {
