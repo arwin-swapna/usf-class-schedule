@@ -3,7 +3,8 @@ import { createTheme } from '@mui/material/styles';
 declare module '@mui/material/Button' {
 	interface ButtonPropsVariantOverrides {
 		main: true,
-		secondary: true
+		secondary: true,
+		navbar: true
 	}
 }
 
@@ -105,6 +106,16 @@ const theme = createTheme({
 							backgroundColor: Colors.secondary,
 							color:Colors.primary,
 						},
+					},
+				},
+				{
+					props : {variant : 'navbar'},
+					style: {
+						color: Colors.secondary,
+						display: 'block',
+						'&hover': {
+							backgroundColor: "black"
+						}
 					},
 				}
 			]
