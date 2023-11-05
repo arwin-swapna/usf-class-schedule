@@ -1,4 +1,4 @@
-import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material";
+import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material"
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import SectionSlideIn from "../../components/SectionSlideIn";
@@ -85,7 +85,8 @@ export default function Home(){
             </Snackbar>
 
             /** Select Class Section slide-in */
-            <Drawer anchor="left" open={sectionSelectOpen} onClose={() => setSectionSelectOpen(false)}>
+            <Drawer anchor="left" PaperProps={{sx:{ width: "35%", backgroundColor: "#006748" },}}
+             open={sectionSelectOpen} onClose={() => setSectionSelectOpen(false)}>
                 {selectedCourse === undefined ? (
                     <Typography>No course selected.</Typography>
                 ) : (

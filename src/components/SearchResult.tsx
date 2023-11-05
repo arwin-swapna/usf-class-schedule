@@ -15,7 +15,7 @@ export default function SearchResult({onSetSelectedCourse} : any) {
         setSearchResults([]);
     }else{
         const searchResults = dummyCourseData.filter((classInfo) => {
-          return classInfo.title.toLowerCase().includes(value.toLowerCase());
+          return (classInfo.title.toLowerCase().includes(value.toLowerCase()) || classInfo.course_code.toLowerCase().includes(value.toLowerCase()));
         });
         setSearchResults(searchResults);
     }
