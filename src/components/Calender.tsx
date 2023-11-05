@@ -44,7 +44,7 @@ export default function Calendar({items}:Props) {
 				plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
 				initialView="timeGridWeek"
 				height='auto'
-				headerToolbar={{ start: "", center: "", end: "timeGridWeek,listWeek" }}
+				headerToolbar={{ start: "", center: "", end: "" }}
 				allDaySlot={false}
 				weekends={false}
 				slotMinTime="08:00:00"

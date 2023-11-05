@@ -33,7 +33,8 @@ const Colors = {
 	subtitle2: "#e3e3e3",
 
 	table_head_bg: "#b9b9b9",
-	table_border: "#a1a1a1"
+	table_border: "#a1a1a1",
+	button_hover: "#003223"
 };
 
 const theme = createTheme({
@@ -97,14 +98,8 @@ const theme = createTheme({
 					style: {
 						backgroundColor: Colors.primary,
 						color:Colors.secondary,
-						borderRadius:'30px', 
-						border: '1.5px solid white',
-						width:'15rem', 
-						height:'3rem',
-						letterSpacing:2,
 						'&:hover': {
-							backgroundColor: Colors.secondary,
-							color:Colors.primary,
+							backgroundColor: Colors.button_hover,
 						},
 					},
 				},

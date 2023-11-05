@@ -29,6 +29,11 @@ export default function Home(){
         }
     };
 
+    function clearCalendar() {
+        setCalendarEvents([]);
+        setClassCount(0);
+    }
+
     function openSectionSelector(courseData : CourseData) {
         setSelectedCourse(courseData)
         setSectionSelectOpen(true)
@@ -46,16 +51,19 @@ export default function Home(){
         <>
             <Box display='flex' my={2} justifyContent='space-between'>
                 <Typography my='auto'>Spring 2024</Typography>
-                <Badge badgeContent={classCount} color='primary' component='span'>
-                    <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
-                </Badge>
-
             </Box>
             <Grid container spacing={2}>
                 <Grid item xs={4} px={2} >
                     <SearchResult onSetSelectedCourse={openSectionSelector}/>
                 </Grid>
                 <Grid item xs={8}>
+                    <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}}>Register</Button>
+                    <Button variant="outlined" onClick={() => clearCalendar()}>Clear Schedule</Button>
+                    <div style={{float: "right"}}>
+                        <Badge badgeContent={classCount} color='primary' component='span'>
+                            <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
+                        </Badge>
+                    </div>
                     <Calender items={calendarEvents}/>
                 </Grid>
             </Grid>
