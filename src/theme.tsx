@@ -6,6 +6,7 @@ declare module '@mui/material/Button' {
 		secondary: true
 	}
 }
+
 const Colors = {
 	primary: "#006748",
 	secondary: "#FFF",
@@ -28,7 +29,10 @@ const Colors = {
 	black: "#000",
 	specialBg: "#f2ede9",
 	subtitle: "#747474",
-	subtitle2: "#e3e3e3"
+	subtitle2: "#e3e3e3",
+
+	table_head_bg: "#b9b9b9",
+	table_border: "#a1a1a1"
 };
 
 const theme = createTheme({
@@ -48,6 +52,25 @@ const theme = createTheme({
 		"fontSize": 14,
 	},
 	components: {
+		MuiTableHead: {
+			defaultProps: {
+				style: {
+					backgroundColor: Colors.table_head_bg,
+				}
+			}
+		},
+
+		MuiTableCell: {
+			defaultProps: {
+				style: {
+					textAlign: "center",
+					color: "black",
+					border: "1.5px solid #a1a1a1",
+					padding: "5px 10px",
+				}
+			}
+		},
+
 		MuiButton: {
 			defaultProps: {
 				disableRipple: true, 

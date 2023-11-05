@@ -1,4 +1,4 @@
-import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material";
+import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Table,TableBody,TableCell,TableHead,TableRow,Typography } from "@mui/material";
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import { useState } from "react";
@@ -11,6 +11,7 @@ export default function Home(){
     const [sopen, ssetOpen] = useState(false);
     const [calendarEvents, setCalendarEvents] = useState<ClassData[]>([])
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const [sectionSelectOpen, setSectionSelectOpen] = useState(false)
     function addClassToCalendar(classData : ClassData){
 
         const exists = calendarEvents.some((data) => data.id === classData.id)
@@ -37,6 +38,7 @@ export default function Home(){
                 <Typography my='auto'>Spring 2024</Typography>
                 <Badge badgeContent={classCount} color='primary' component='span'>
                     <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
+                    <Button variant="outlined" onClick={() => setSectionSelectOpen(true)} >For Testing Purposes</Button>
                 </Badge>
 
             </Box>
@@ -73,6 +75,57 @@ export default function Home(){
                 <Alert severity="success">Class Added</Alert>
             </Snackbar>
 
+            /** Select Class Section slide-in */
+            <Drawer anchor="left" open={sectionSelectOpen} onClose={() => setSectionSelectOpen(false)}>
+                <Box p={3}>
+                    <Box mb={2}>
+                        <Typography color='primary'>COP 4530 Data Structures </Typography>
+                        <Divider/>
+                    </Box>
+                    <Grid item xs={12} key={1} pb={1}>
+                        <Card variant='outlined' sx={{borderRadius:'18px'}}>
+                            <CardActionArea>
+                                <CardContent>
+                                    <Typography variant="h6" component="div">
+                                        {"COP 4530 Section 001"}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        CRN: {"86627"}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Professor: {"Valentina Korzhova"}
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Max Seats: {"95"}<br></br>
+                                        Available Seats: {"22"}<br></br>
+                                    </Typography>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>Format</TableCell>
+                                                <TableCell>Days</TableCell>
+                                                <TableCell>Time</TableCell>
+                                                <TableCell>Location</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell>{"In-Person"}</TableCell>
+                                                <TableCell>Monday/<br></br>Wednesday</TableCell>
+                                                <TableCell>8:00am<br></br>-<br></br>9:15am</TableCell>
+                                                <TableCell>{"CPR 103"}</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                </Box>
+            </Drawer>
+
+
+            /** Selected Classes slide-in */
             <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
                 <Box p={3}>
                     <Box mb={2}>
