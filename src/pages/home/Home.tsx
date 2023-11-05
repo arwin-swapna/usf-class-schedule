@@ -52,7 +52,7 @@ export default function Home(){
             <Box display='flex' my={2} justifyContent='space-between'>
                 <Typography my='auto'>Spring 2024</Typography>
             </Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} marginBottom={"20px"}>
                 <Grid item xs={4} px={2} >
                     <SearchResult onSetSelectedCourse={openSectionSelector}/>
                 </Grid>
