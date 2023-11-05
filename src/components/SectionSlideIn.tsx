@@ -1,11 +1,11 @@
-import { Box, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Table,TableBody,TableCell,TableHead,TableRow,Typography } from "@mui/material";
+import { Box, Card, CardActionArea, CardContent, Divider, Grid,Table,TableBody,TableCell,TableHead,TableRow,Typography } from "@mui/material";
 
-export default function SectionSlideIn() {
+export default function SectionSlideIn({selectedCourse} : any) {
     return (
         /** Select Class Section slide-in */
             <Box p={3}>
                 <Box mb={2}>
-                    <Typography color='primary'>COP 4530 Data Structures </Typography>
+                    <Typography color='primary'>{selectedCourse.course_code} {selectedCourse.title}</Typography>
                     <Divider/>
                 </Box>
                 <Grid item xs={12} key={1} pb={1}>

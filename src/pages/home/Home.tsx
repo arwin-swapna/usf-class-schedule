@@ -1,11 +1,10 @@
-import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Table,TableBody,TableCell,TableHead,TableRow,Typography } from "@mui/material";
+import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material";
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import SectionSlideIn from "../../components/SectionSlideIn";
 import { useState } from "react";
 import { ClassData } from "../../components/data";
 import { CourseData } from "../../components/courses";
-import { ClassSectionData } from "../../components/class_sections";
 
 export default function Home(){
 
@@ -90,9 +89,8 @@ export default function Home(){
                 {selectedCourse === undefined ? (
                     <Typography>No course selected.</Typography>
                 ) : (
-                    <Typography>{selectedCourse.id}</Typography>
+                    <SectionSlideIn selectedCourse={selectedCourse}/>
                 )}
-                <SectionSlideIn/>
             </Drawer>
 
             /** Selected Classes slide-in */
