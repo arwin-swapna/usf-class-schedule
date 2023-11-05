@@ -2,7 +2,7 @@ import { Box, Card, CardActionArea, CardContent, Divider, Grid,Table,TableBody,T
 import { useState, useEffect } from 'react';
 import { ClassSectionData, dummyClassSectionData } from "./class_sections";
 
-export default function SectionSlideIn({selectedCourse} : any) {
+export default function SectionSlideIn({selectedCourse, onAddClassToCalendar} : any) {
 
     const [courseSections, setCourseSections] = useState<ClassSectionData[]>([]);
 
@@ -32,7 +32,7 @@ export default function SectionSlideIn({selectedCourse} : any) {
                         {courseSections.map((result) => (
                             <Grid item xs={12} key={result.crn}>
                                 <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                                    <CardActionArea>
+                                    <CardActionArea onClick={() => onAddClassToCalendar(result) }>
                                         <CardContent>
                                             <Typography variant="h6" component="div">
                                                 {result.course_code} {result.course_title}

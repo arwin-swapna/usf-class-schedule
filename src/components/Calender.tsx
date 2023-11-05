@@ -3,12 +3,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from '@fullcalendar/list';
-import { ClassData } from "./data";
+import { ClassSectionData } from "./class_sections";
 import { useEffect, useState } from "react";
 
 
 interface Props {
-	items: ClassData[];
+	items: ClassSectionData[];
 }
 
 export default function Calendar({items}:Props) {
@@ -25,7 +25,7 @@ export default function Calendar({items}:Props) {
 		for(const classD of items){
 				test = [...test,{
 					id:i,
-					title:classD.title.toString(),
+					title:classD.course_title.toString(),
 					startTime:classD.startTime,
 					endTime:classD.endTime,
 					allDay: false,

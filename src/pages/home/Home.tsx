@@ -3,24 +3,24 @@ import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import SectionSlideIn from "../../components/SectionSlideIn";
 import { useState } from "react";
-import { ClassData } from "../../components/data";
 import { CourseData } from "../../components/courses";
+import { ClassSectionData } from "../../components/class_sections";
 
 export default function Home(){
 
     const [classCount ,setClassCount] = useState(0)
     const [open, setOpen] = useState(false);
     const [sopen, ssetOpen] = useState(false);
-    const [calendarEvents, setCalendarEvents] = useState<ClassData[]>([])
+    const [calendarEvents, setCalendarEvents] = useState<ClassSectionData[]>([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [sectionSelectOpen, setSectionSelectOpen] = useState(false)
     const [selectedCourse, setSelectedCourse] = useState<CourseData>()
 
-    function addClassToCalendar(classData : ClassData){
+    function addClassToCalendar(classSectionData : ClassSectionData){
 
-        const exists = calendarEvents.some((data) => data.id === classData.id)
+        const exists = calendarEvents.some((data) => data.crn === classSectionData.crn)
         if(!exists){
-            setCalendarEvents([...calendarEvents, classData]);
+            setCalendarEvents([...calendarEvents, classSectionData]);
             setClassCount(calendarEvents.length + 1)
             ssetOpen(true)
         }else{
@@ -47,7 +47,6 @@ export default function Home(){
                 <Typography my='auto'>Spring 2024</Typography>
                 <Badge badgeContent={classCount} color='primary' component='span'>
                     <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
-                    <Button variant="outlined" onClick={() => setSectionSelectOpen(true)} >For Testing Purposes</Button>
                 </Badge>
 
             </Box>
@@ -84,17 +83,15 @@ export default function Home(){
                 <Alert severity="success">Class Added</Alert>
             </Snackbar>
 
-            /** Select Class Section slide-in */
             <Drawer anchor="left" PaperProps={{sx:{ width: "35%", backgroundColor: "#006748" },}}
              open={sectionSelectOpen} onClose={() => setSectionSelectOpen(false)}>
                 {selectedCourse === undefined ? (
                     <Typography>No course selected.</Typography>
                 ) : (
-                    <SectionSlideIn selectedCourse={selectedCourse}/>
+                    <SectionSlideIn selectedCourse={selectedCourse} onAddClassToCalendar={addClassToCalendar}/>
                 )}
             </Drawer>
 
-            /** Selected Classes slide-in */
             <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
                 <Box p={3}>
                     <Box mb={2}>
@@ -105,12 +102,12 @@ export default function Home(){
                         <Typography variant="body1">No classes in the schedule</Typography>
                     ) : (
                         calendarEvents.map((result) => (
-                            <Grid item xs={12} key={result.id} pb={1}>
+                            <Grid item xs={12} key={result.crn} pb={1}>
                                 <Card variant='outlined' sx={{borderRadius:'18px'}}>
                                     <CardActionArea>
                                         <CardContent>
                                             <Typography variant="h6" component="div">
-                                                {result.title}
+                                                {result.course_title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
                                                 Time: {result.days} {result.startTime}
