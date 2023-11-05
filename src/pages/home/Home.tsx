@@ -1,8 +1,11 @@
 import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Table,TableBody,TableCell,TableHead,TableRow,Typography } from "@mui/material";
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
+import SectionSlideIn from "../../components/SectionSlideIn";
 import { useState } from "react";
 import { ClassData } from "../../components/data";
+import { CourseData } from "../../components/courses";
+import { ClassSectionData } from "../../components/class_sections";
 
 export default function Home(){
 
@@ -12,6 +15,8 @@ export default function Home(){
     const [calendarEvents, setCalendarEvents] = useState<ClassData[]>([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [sectionSelectOpen, setSectionSelectOpen] = useState(false)
+    const [selectedCourse, setSelectedCourse] = useState<CourseData>()
+
     function addClassToCalendar(classData : ClassData){
 
         const exists = calendarEvents.some((data) => data.id === classData.id)
@@ -22,6 +27,11 @@ export default function Home(){
         }else{
             setOpen(true)
         }
+    };
+
+    function openSectionSelector(courseData : CourseData) {
+        setSelectedCourse(courseData)
+        setSectionSelectOpen(true)
     };
 
     const handleClose = () => {
@@ -44,7 +54,7 @@ export default function Home(){
             </Box>
             <Grid container spacing={2}>
                 <Grid item xs={4} px={2} >
-                    <SearchResult onAddClassToCalendar={addClassToCalendar}/>
+                    <SearchResult onSetSelectedCourse={openSectionSelector}/>
                 </Grid>
                 <Grid item xs={8}>
                     <Calender items={calendarEvents}/>
@@ -77,53 +87,13 @@ export default function Home(){
 
             /** Select Class Section slide-in */
             <Drawer anchor="left" open={sectionSelectOpen} onClose={() => setSectionSelectOpen(false)}>
-                <Box p={3}>
-                    <Box mb={2}>
-                        <Typography color='primary'>COP 4530 Data Structures </Typography>
-                        <Divider/>
-                    </Box>
-                    <Grid item xs={12} key={1} pb={1}>
-                        <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                            <CardActionArea>
-                                <CardContent>
-                                    <Typography variant="h6" component="div">
-                                        {"COP 4530 Section 001"}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        CRN: {"86627"}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        Professor: {"Valentina Korzhova"}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                        Max Seats: {"95"}<br></br>
-                                        Available Seats: {"22"}<br></br>
-                                    </Typography>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Format</TableCell>
-                                                <TableCell>Days</TableCell>
-                                                <TableCell>Time</TableCell>
-                                                <TableCell>Location</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell>{"In-Person"}</TableCell>
-                                                <TableCell>Monday/<br></br>Wednesday</TableCell>
-                                                <TableCell>8:00am<br></br>-<br></br>9:15am</TableCell>
-                                                <TableCell>{"CPR 103"}</TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-                </Box>
+                {selectedCourse === undefined ? (
+                    <Typography>No course selected.</Typography>
+                ) : (
+                    <Typography>{selectedCourse.id}</Typography>
+                )}
+                <SectionSlideIn/>
             </Drawer>
-
 
             /** Selected Classes slide-in */
             <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
