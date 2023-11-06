@@ -68,8 +68,9 @@ export default function Home(){
                     <SearchResult onSetSelectedCourse={openSectionSelector}/>
                 </Grid>
                 <Grid item xs={8}>
-                    <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}} onClick={() => regSuccessSetOpen(true)}>Register</Button>
-                    <Button variant="outlined" onClick={() => clearCalendar()}>Clear Schedule</Button>
+                    <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}}
+                        disabled={!classCount} onClick={() => regSuccessSetOpen(true)}>Register</Button>
+                    <Button variant="outlined" disabled={!classCount} onClick={() => clearCalendar()}>Clear Schedule</Button>
                     <div style={{float: "right"}}>
                         <Badge badgeContent={classCount} color='primary' component='span'>
                             <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>

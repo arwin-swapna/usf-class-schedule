@@ -77,6 +77,14 @@ const theme = createTheme({
 			defaultProps: {
 				disableRipple: true, 
 			},
+			styleOverrides: {
+				root: {
+					"&.Mui-disabled": {
+						background: "#f3f3f3",
+						color: "#dadada"
+					}
+				}
+			},
 			variants: [
 				{
 					props: {variant : 'main'},
