@@ -1,26 +1,45 @@
-import { Alert, Badge, Box, Button, Card, CardActionArea, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material";
+import { Alert, Badge, Box, Button, Card, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material"
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
+import SectionSlideIn from "../../components/SectionSlideIn";
 import { useState } from "react";
-import { ClassData } from "../../components/data";
+import { CourseData } from "../../components/courses";
+import { ClassSectionData } from "../../components/class_sections";
+import { getWeekday, convertTime } from "../../helpers";
 
 export default function Home(){
 
     const [classCount ,setClassCount] = useState(0)
     const [open, setOpen] = useState(false);
     const [sopen, ssetOpen] = useState(false);
-    const [calendarEvents, setCalendarEvents] = useState<ClassData[]>([])
+    const [regSuccessOpen, regSuccessSetOpen] = useState(false);
+    const [clearOpen, clearSetOpen] = useState(false);
+    const [calendarEvents, setCalendarEvents] = useState<ClassSectionData[]>([])
     const [drawerOpen, setDrawerOpen] = useState(false)
-    function addClassToCalendar(classData : ClassData){
+    const [sectionSelectOpen, setSectionSelectOpen] = useState(false)
+    const [selectedCourse, setSelectedCourse] = useState<CourseData>()
 
-        const exists = calendarEvents.some((data) => data.id === classData.id)
-        if(!exists){
-            setCalendarEvents([...calendarEvents, classData]);
+    function addClassToCalendar(classSectionData : ClassSectionData){
+
+        const duplicate = calendarEvents.some((data) => data.course_id === classSectionData.course_id)
+        if(!duplicate){
+            setCalendarEvents([...calendarEvents, classSectionData]);
             setClassCount(calendarEvents.length + 1)
             ssetOpen(true)
         }else{
             setOpen(true)
         }
+    };
+
+    function clearCalendar() {
+        setCalendarEvents([]);
+        setClassCount(0);
+        clearSetOpen(true)
+    }
+
+    function openSectionSelector(courseData : CourseData) {
+        setSelectedCourse(courseData)
+        setSectionSelectOpen(true)
     };
 
     const handleClose = () => {
@@ -31,20 +50,31 @@ export default function Home(){
         ssetOpen(false);
     };
 
+    const clearHandleClose = () => {
+        clearSetOpen(false);
+    };
+
+    const regSuccessHandleClose = () => {
+        regSuccessSetOpen(false);
+    };
+
     return (
         <>
             <Box display='flex' my={2} justifyContent='space-between'>
                 <Typography my='auto'>Spring 2024</Typography>
-                <Badge badgeContent={classCount} color='primary' component='span'>
-                    <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
-                </Badge>
-
             </Box>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} marginBottom={"20px"}>
                 <Grid item xs={4} px={2} >
-                    <SearchResult onAddClassToCalendar={addClassToCalendar}/>
+                    <SearchResult onSetSelectedCourse={openSectionSelector}/>
                 </Grid>
                 <Grid item xs={8}>
+                    <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}} onClick={() => regSuccessSetOpen(true)}>Register</Button>
+                    <Button variant="outlined" onClick={() => clearCalendar()}>Clear Schedule</Button>
+                    <div style={{float: "right"}}>
+                        <Badge badgeContent={classCount} color='primary' component='span'>
+                            <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
+                        </Badge>
+                    </div>
                     <Calender items={calendarEvents}/>
                 </Grid>
             </Grid>
@@ -58,7 +88,7 @@ export default function Home(){
                 autoHideDuration={3000} 
                 onClose={handleClose}
             >
-                <Alert severity="error">This class has already been added</Alert>
+                <Alert severity="error">Cannot add duplicate class</Alert>
             </Snackbar>
 
             <Snackbar
@@ -73,7 +103,40 @@ export default function Home(){
                 <Alert severity="success">Class Added</Alert>
             </Snackbar>
 
-            <Drawer anchor="right" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={clearOpen}
+                autoHideDuration={1000} 
+                onClose={clearHandleClose}
+            >
+                <Alert severity="info">Schedule Cleared</Alert>
+            </Snackbar>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={regSuccessOpen}
+                autoHideDuration={1000} 
+                onClose={regSuccessHandleClose}
+            >
+                <Alert severity="success">Successfully registered!</Alert>
+            </Snackbar>
+
+            <Drawer anchor="left" PaperProps={{sx:{ width: "35%", backgroundColor: "#006748" },}}
+             open={sectionSelectOpen} onClose={() => setSectionSelectOpen(false)}>
+                {selectedCourse === undefined ? (
+                    <Typography>No course selected.</Typography>
+                ) : (
+                    <SectionSlideIn selectedCourse={selectedCourse} onAddClassToCalendar={addClassToCalendar}/>
+                )}
+            </Drawer>
+
+            <Drawer anchor="right" PaperProps={{sx:{ width: "20%"}}} open={drawerOpen} onClose={() => setDrawerOpen(false)}>
                 <Box p={3}>
                     <Box mb={2}>
                         <Typography color='primary'>Current Schedule: </Typography>
@@ -83,21 +146,20 @@ export default function Home(){
                         <Typography variant="body1">No classes in the schedule</Typography>
                     ) : (
                         calendarEvents.map((result) => (
-                            <Grid item xs={12} key={result.id} pb={1}>
+                            <Grid item xs={12} key={result.crn} pb={1}>
                                 <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                                    <CardActionArea>
                                         <CardContent>
                                             <Typography variant="h6" component="div">
-                                                {result.title}
+                                                {result.course_title}
                                             </Typography>
                                             <Typography variant="body2" color="text.secondary">
-                                                Time: {result.days} {result.startTime}
-                                            </Typography>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Professor: {result.professor}
+                                                {result.course_code}<br/>
+                                                Days: {getWeekday(result.days[0])}, {getWeekday(result.days[1])}<br/>
+                                                Time: {convertTime(result.startTime)} - {convertTime(result.endTime)}<br/>
+                                                Professor: {result.professor}<br/>
+                                                Location: {result.location}<br/>
                                             </Typography>
                                         </CardContent>
-                                    </CardActionArea>
                                 </Card>
                             </Grid>
                         ))
