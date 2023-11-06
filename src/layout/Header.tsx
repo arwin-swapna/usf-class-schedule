@@ -34,9 +34,7 @@ export default function Header() {
                 <Box sx={{ flexGrow: 1, display: 'flex' }}>
                     <Button variant="navbar" onClick={() => window.open("https://my.usf.edu/myusf/home_myusf/index")}>MyUSF</Button>
                     <Button variant="navbar" onClick={() => window.open("https://bannersso.usf.edu/ssomanager/c/SSB")}>OASIS</Button>
-                    <Button variant="navbar">Registered Classes</Button>
-                </Box>
-                
+                </Box>                
             </Toolbar>
         </Container>
     </AppBar>
