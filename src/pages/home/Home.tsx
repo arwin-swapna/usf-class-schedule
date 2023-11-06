@@ -10,7 +10,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export default function Home(){
 
-    const [classCount ,setClassCount] = useState(0)
     const [open, setOpen] = useState(false);
     const [sopen, ssetOpen] = useState(false);
     const [regSuccessOpen, regSuccessSetOpen] = useState(false);
@@ -25,7 +24,6 @@ export default function Home(){
         const duplicate = calendarEvents.some((data) => data.course_id === classSectionData.course_id)
         if(!duplicate){
             setCalendarEvents([...calendarEvents, classSectionData]);
-            setClassCount(calendarEvents.length + 1)
             ssetOpen(true)
         }else{
             setOpen(true)
@@ -34,7 +32,6 @@ export default function Home(){
 
     function clearCalendar() {
         setCalendarEvents([]);
-        setClassCount(0);
         clearSetOpen(true)
     }
 
@@ -75,10 +72,10 @@ export default function Home(){
                 </Grid>
                 <Grid item xs={8}>
                     <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}}
-                        disabled={!classCount} onClick={() => regSuccessSetOpen(true)}>Register</Button>
-                    <Button variant="outlined" disabled={!classCount} onClick={() => clearCalendar()}>Clear Schedule</Button>
+                        disabled={!calendarEvents.length} onClick={() => regSuccessSetOpen(true)}>Register</Button>
+                    <Button variant="outlined" disabled={!calendarEvents.length} onClick={() => clearCalendar()}>Clear Schedule</Button>
                     <div style={{float: "right"}}>
-                        <Badge badgeContent={classCount} color='primary' component='span'>
+                        <Badge badgeContent={calendarEvents.length} color='primary' component='span'>
                             <Button variant="outlined" onClick={() => setDrawerOpen(true)} >Selected Classes</Button>
                         </Badge>
                     </div>
