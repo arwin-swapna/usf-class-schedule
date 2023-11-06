@@ -12,6 +12,8 @@ export default function Home(){
     const [classCount ,setClassCount] = useState(0)
     const [open, setOpen] = useState(false);
     const [sopen, ssetOpen] = useState(false);
+    const [regSuccessOpen, regSuccessSetOpen] = useState(false);
+    const [clearOpen, clearSetOpen] = useState(false);
     const [calendarEvents, setCalendarEvents] = useState<ClassSectionData[]>([])
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [sectionSelectOpen, setSectionSelectOpen] = useState(false)
@@ -32,6 +34,7 @@ export default function Home(){
     function clearCalendar() {
         setCalendarEvents([]);
         setClassCount(0);
+        clearSetOpen(true)
     }
 
     function openSectionSelector(courseData : CourseData) {
@@ -47,6 +50,14 @@ export default function Home(){
         ssetOpen(false);
     };
 
+    const clearHandleClose = () => {
+        clearSetOpen(false);
+    };
+
+    const regSuccessHandleClose = () => {
+        regSuccessSetOpen(false);
+    };
+
     return (
         <>
             <Box display='flex' my={2} justifyContent='space-between'>
@@ -57,7 +68,7 @@ export default function Home(){
                     <SearchResult onSetSelectedCourse={openSectionSelector}/>
                 </Grid>
                 <Grid item xs={8}>
-                    <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}}>Register</Button>
+                    <Button variant="secondary" style={{margin: "0px 20px 0px 0px"}} onClick={() => regSuccessSetOpen(true)}>Register</Button>
                     <Button variant="outlined" onClick={() => clearCalendar()}>Clear Schedule</Button>
                     <div style={{float: "right"}}>
                         <Badge badgeContent={classCount} color='primary' component='span'>
@@ -77,7 +88,7 @@ export default function Home(){
                 autoHideDuration={3000} 
                 onClose={handleClose}
             >
-                <Alert severity="error">This class has already been added</Alert>
+                <Alert severity="error">Cannot add duplicate class</Alert>
             </Snackbar>
 
             <Snackbar
@@ -90,6 +101,30 @@ export default function Home(){
                 onClose={shandleClose}
             >
                 <Alert severity="success">Class Added</Alert>
+            </Snackbar>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={clearOpen}
+                autoHideDuration={1000} 
+                onClose={clearHandleClose}
+            >
+                <Alert severity="info">Schedule Cleared</Alert>
+            </Snackbar>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                }}
+                open={regSuccessOpen}
+                autoHideDuration={1000} 
+                onClose={regSuccessHandleClose}
+            >
+                <Alert severity="success">Successfully registered!</Alert>
             </Snackbar>
 
             <Drawer anchor="left" PaperProps={{sx:{ width: "35%", backgroundColor: "#006748" },}}
