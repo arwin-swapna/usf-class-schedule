@@ -51,7 +51,6 @@ export default function Calendar({items}:Props) {
 				slotMaxTime="20:00:00"
 				dayHeaderContent={dayHeaderContent}
 				events={events}
-				
 			/>
 		</>
 	);

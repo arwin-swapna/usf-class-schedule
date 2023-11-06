@@ -1,4 +1,4 @@
-import { Alert, Badge, Box, Button, Card, CardContent, Divider, Drawer, Grid,Snackbar,Typography } from "@mui/material"
+import { Alert, Badge, Box, Button, Card, CardContent, Divider, Drawer, Grid,IconButton,Snackbar,Typography } from "@mui/material"
 import Calender from "../../components/Calender";
 import SearchResult from "../../components/SearchResult";
 import SectionSlideIn from "../../components/SectionSlideIn";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { CourseData } from "../../components/courses";
 import { ClassSectionData } from "../../components/class_sections";
 import { getWeekday, convertTime } from "../../helpers";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Home(){
 
@@ -57,6 +58,11 @@ export default function Home(){
     const regSuccessHandleClose = () => {
         regSuccessSetOpen(false);
     };
+
+    function removeItem(courseCrn : number){
+        const updatedEvents = calendarEvents.filter(events => events.crn !== courseCrn);
+        setCalendarEvents(updatedEvents)
+    }
 
     return (
         <>
@@ -149,9 +155,14 @@ export default function Home(){
                             <Grid item xs={12} key={result.crn} pb={1}>
                                 <Card variant='outlined' sx={{borderRadius:'18px'}}>
                                         <CardContent>
-                                            <Typography variant="h6" component="div">
-                                                {result.course_title}
-                                            </Typography>
+                                            <Box display='flex' justifyContent='space-between'>
+                                                <Typography variant="h6" component="div">
+                                                    {result.course_title}
+                                                </Typography>
+                                                <IconButton onClick={() => removeItem(result.crn)} >
+                                                    <CloseIcon color="error" />
+                                                </IconButton>
+                                            </Box>
                                             <Typography variant="body2" color="text.secondary">
                                                 {result.course_code}<br/>
                                                 Days: {getWeekday(result.days[0])}, {getWeekday(result.days[1])}<br/>
