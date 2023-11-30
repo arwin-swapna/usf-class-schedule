@@ -1,10 +1,10 @@
 import { Box, Card, CardActionArea, CardContent, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { ClassData, dummyClassData } from './data';
+import { CourseData, dummyCourseData } from './courses';
 
-export default function SearchResult({onAddClassToCalendar} : any) {
+export default function SearchResult({onSetSelectedCourse} : any) {
   const [searchText, setSearchText] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<ClassData[]>([]);
+  const [searchResults, setSearchResults] = useState<CourseData[]>([]);
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -14,8 +14,8 @@ export default function SearchResult({onAddClassToCalendar} : any) {
     if (value === '') {
         setSearchResults([]);
     }else{
-        const searchResults = dummyClassData.filter((classInfo) => {
-          return classInfo.title.toLowerCase().includes(value.toLowerCase());
+        const searchResults = dummyCourseData.filter((classInfo) => {
+          return (classInfo.title.toLowerCase().includes(value.toLowerCase()) || classInfo.course_code.toLowerCase().includes(value.toLowerCase()));
         });
         setSearchResults(searchResults);
     }
@@ -41,19 +41,13 @@ export default function SearchResult({onAddClassToCalendar} : any) {
                     {searchResults.map((result) => (
                         <Grid item xs={12} key={result.id}>
                             <Card variant='outlined' sx={{borderRadius:'18px'}}>
-                                <CardActionArea onClick={() => onAddClassToCalendar(result) }>
+                                <CardActionArea onClick={() => onSetSelectedCourse(result)}>
                                     <CardContent>
                                         <Typography variant="h6" component="div">
                                             {result.title}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
-                                            Days: {result.days}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Time:  {result.startTime} - {result.endTime}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                            Professor: {result.professor}
+                                            {result.course_code}
                                         </Typography>
                                     </CardContent>
                                 </CardActionArea>

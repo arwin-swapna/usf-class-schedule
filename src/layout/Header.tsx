@@ -6,17 +6,13 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 const YourSVGFile = 'src/assets/usflogo.svg';
 
-
-const pages = ['MyUSF', 'OASIS', 'Week at a Glance', 'Registered Classes'];
-
-
 export default function Header() {
 
   return (
     <AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
-                <img src={YourSVGFile} alt="Your Logo" style={{ height: '30px', width: '30px', marginRight: '10px' }} />
+                <img src={YourSVGFile} alt="USF Logo" style={{ height: '30px', width: '30px', marginRight: '10px' }} />
 
                 <Typography
                     variant="h6"
@@ -36,17 +32,9 @@ export default function Header() {
                 </Typography>
 
                 <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                    {pages.map((page) => (
-                    <Button
-                        key={page}
-                        sx={{ my: 2, color: 'secondary.main', display: 'block' }}
-                    >
-                        {page}
-                    </Button>
-                    ))}
-                </Box>
-                
-
+                    <Button variant="navbar" onClick={() => window.open("https://my.usf.edu/myusf/home_myusf/index")}>MyUSF</Button>
+                    <Button variant="navbar" onClick={() => window.open("https://bannersso.usf.edu/ssomanager/c/SSB")}>OASIS</Button>
+                </Box>                
             </Toolbar>
         </Container>
     </AppBar>
