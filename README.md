@@ -28,3 +28,12 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    $ npm run dev
 5. Open your browser and go to http://localhost:3000 to see the application in action.
+
+## Contributing
+To contribute to this project, follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-branch-name`.
+3. Make your changes and commit them: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature-branch-name`.
+5. Create a pull request.
